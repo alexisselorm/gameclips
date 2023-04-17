@@ -19,46 +19,43 @@
   <!-- Age -->
   <div class="mb-3">
     <label class="inline-block mb-2">Age</label>
-    <input
-      formControlName="age"
+    <app-input
+      [control]="registerForm.controls.age"
+      placeholder="Enter age"
       type="number"
-      class="block w-full py-1.5 px-3 text-gray-200 border border-gray-400 transition duration-500 focus:outline-none rounded bg-transparent focus:border-indigo-400"
-      placeholder="Enter your name"
-    />
+    ></app-input>
   </div>
   <!-- Password -->
   <div class="mb-3">
     <label class="inline-block mb-2">Password</label>
-    <input
-      formControlName="password"
-      type="password"
-      class="block w-full py-1.5 px-3 text-gray-200 border border-gray-400 transition duration-500 focus:outline-none rounded bg-transparent focus:border-indigo-400"
+    <app-input
       placeholder="Password"
-    />
+      type="password"
+      [control]="registerForm.controls.password"
+    ></app-input>
   </div>
   <!-- Confirm Password -->
   <div class="mb-3">
     <label class="inline-block mb-2">Confirm Password</label>
-    <input
-      formControlName="confirm_password"
+    <app-input
+      placeholder="Confirm password"
       type="password"
-      class="block w-full py-1.5 px-3 text-gray-200 border border-gray-400 transition duration-500 focus:outline-none rounded bg-transparent focus:border-indigo-400"
-      placeholder="Confirm Password"
-    />
+      [control]="registerForm.controls.confirm_password"
+    ></app-input>
   </div>
   <!-- Phone Number -->
   <div class="mb-3">
     <label class="inline-block mb-2">Phone Number</label>
-    <input
-      formControlName="phoneNumber"
-      type="text"
-      class="block w-full py-1.5 px-3 text-gray-200 border border-gray-400 transition duration-500 focus:outline-none rounded bg-transparent focus:border-indigo-400"
-      placeholder="Enter Phone Number"
-    />
+    <app-input
+      placeholder="Enter phone number"
+      format="(000)000-0000"
+      [control]="registerForm.controls.phoneNumber"
+    ></app-input>
   </div>
   <button
     type="submit"
-    class="block w-full bg-indigo-400 text-white py-1.5 px-3 rounded transition hover:bg-indigo-500"
+    class="block w-full bg-indigo-400 text-white py-1.5 px-3 rounded transition hover:bg-indigo-500 disabled:opacity-50 disabled:bg-indigo-500"
+    [disabled]="registerForm.invalid"
   >
     Submit
   </button>

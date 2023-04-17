@@ -28,7 +28,13 @@ export class RegisterComponent {
     ]),
   });
 
+  showAlert = false;
+  alertMsg = 'Please wait! Your account is being registered';
+  alertColor = 'blue';
+
   register() {
-    console.log('this.register');
+    this.showAlert = true;
+    // this.alertMsg = '';
+    this.alertColor = 'blue';
   }
 }

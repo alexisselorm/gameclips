@@ -33,7 +33,7 @@ export class RegisterComponent {
         Validators.maxLength(13),
       ]),
     },
-    [RegisterValidators.match]
+    [RegisterValidators.match('password', 'confirm_password')]
   );
 
   showAlert = false;

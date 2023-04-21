@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import IUser from 'src/app/models/user.model';
+import { RegisterValidators } from '../validators/register-validators';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -10,27 +11,30 @@ import IUser from 'src/app/models/user.model';
 export class RegisterComponent {
   constructor(private auth: AuthService) {}
 
-  registerForm = new FormGroup({
-    name: new FormControl('', [Validators.required, Validators.minLength(2)]),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    age: new FormControl<number | null>(null, [
-      Validators.required,
-      Validators.min(18),
-      Validators.max(120),
-    ]),
-    password: new FormControl('', [
-      Validators.required,
-      Validators.pattern(
-        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm
-      ),
-    ]),
-    confirm_password: new FormControl('', [Validators.required]),
-    phoneNumber: new FormControl('', [
-      Validators.required,
-      Validators.minLength(10),
-      Validators.maxLength(13),
-    ]),
-  });
+  registerForm = new FormGroup(
+    {
+      name: new FormControl('', [Validators.required, Validators.minLength(2)]),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      age: new FormControl<number | null>(null, [
+        Validators.required,
+        Validators.min(18),
+        Validators.max(120),
+      ]),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.pattern(
+          /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm
+        ),
+      ]),
+      confirm_password: new FormControl('', [Validators.required]),
+      phoneNumber: new FormControl('', [
+        Validators.required,
+        Validators.minLength(10),
+        Validators.maxLength(13),
+      ]),
+    },
+    [RegisterValidators.match]
+  );
 
   showAlert = false;
   alertMsg = 'Please wait! Your account is being registered';

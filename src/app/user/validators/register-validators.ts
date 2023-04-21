@@ -1,6 +1,5 @@
 import { ValidationErrors, AbstractControl, ValidatorFn } from '@angular/forms';
 export class RegisterValidators {
-  test = 5;
   static match(controlName: string, matchingControlName: string): ValidatorFn {
     return (group: AbstractControl): ValidationErrors | null => {
       const control = group.get('password');

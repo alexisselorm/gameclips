@@ -7,11 +7,14 @@ export class RegisterValidators {
       const matchingControl = group.get('confirm_password');
 
       if (!control || !matchingControl) {
+        console.error('Form control not found in the form group');
         return { controlNotFound: false };
       }
 
       const error =
         control.value === matchingControl.value ? null : { noMatch: true };
+
+      matchingControl.setErrors(error);
 
       return error;
     };

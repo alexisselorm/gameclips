@@ -24,4 +24,7 @@
   </p>
   <p *ngIf="control.errors?.['min']" class="text-red-400">You're not legal</p>
   <p *ngIf="control.errors?.['max']" class="text-red-400">You're over age</p>
+  <p *ngIf="control.errors?.['noMatch']" class="text-red-400">
+    Passwords do not match
+  </p>
 </ng-container>

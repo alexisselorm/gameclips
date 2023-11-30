@@ -5,7 +5,6 @@ import {
   AsyncValidator,
   ValidationErrors,
 } from '@angular/forms';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',

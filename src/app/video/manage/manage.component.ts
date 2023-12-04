@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 @Component({
   selector: 'app-manage',
@@ -7,7 +7,22 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./manage.component.css'],
 })
 export class ManageComponent implements OnInit {
-  constructor(private activatedRoute: ActivatedRoute) {}
+  videoOrder = '1';
 
-  ngOnInit(): void {}
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
+
+  ngOnInit(): void {
+    this.activatedRoute.queryParamMap.subscribe((params: Params) => {
+      this.videoOrder = params['sort'] === '2' ? params['sort'] : '1';
+    });
+  }
+
+  sort(event: Event) {
+    const { value } = event.target as HTMLSelectElement;
+
+    this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: { sort: value },
+    });
+  }
 }

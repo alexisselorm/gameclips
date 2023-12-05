@@ -41,6 +41,12 @@ export class UploadComponent {
     const clipFilename = v4();
     const clipPath = `clips/${clipFilename}`;
 
-    this.storage.upload(clipPath, this.file);
+    let uploadedFile = this.storage.upload(clipPath, this.file);
+
+    // uploadedFile.then((res) =>
+    //   res.ref.getDownloadURL().then((url) => {
+    //     console.log(url);
+    //   })
+    // );
   }
 }

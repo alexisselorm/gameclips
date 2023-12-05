@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { v4 } from 'uuid';
 
 @Component({
   selector: 'app-upload',
@@ -7,12 +9,11 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./upload.component.css'],
 })
 export class UploadComponent {
+  constructor(private storage: AngularFireStorage) {}
+
+  title = new FormControl('', [Validators.required, Validators.minLength(3)]);
   form: FormGroup = new FormGroup({
-    thumbnail: new FormControl('', [
-      Validators.required,
-      Validators.minLength(3),
-    ]),
-    title: new FormControl('', Validators.required),
+    title: this.title,
   });
 
   isDragover = false;
@@ -27,7 +28,6 @@ export class UploadComponent {
     }
 
     this.form.setValue({
-      thumbnail: 'Something',
       title: this.file.name.replace(/\.[^/.]+$/, ''),
     });
     console.log(this.form.controls['title'].value);
@@ -38,6 +38,9 @@ export class UploadComponent {
   }
 
   uploadFile() {
-    console.log('File Uploaded');
+    const clipFilename = v4();
+    const clipPath = `clips/${clipFilename}`;
+
+    this.storage.upload(clipPath, this.file);
   }
 }

@@ -58,6 +58,7 @@ export class UploadComponent {
   }
 
   uploadFile() {
+    this.form.disable();
     this.showAlert = true;
     this.alertColor = 'blue';
     this.alertMsg = 'Please wait... Your clip is being uploaded';
@@ -83,7 +84,6 @@ export class UploadComponent {
       )
       .subscribe({
         next: (url) => {
-          this.form.disable();
           const clip = {
             uid: this.user?.uid as string,
             displayName: this.user?.displayName as string,

@@ -83,6 +83,7 @@ export class UploadComponent {
       )
       .subscribe({
         next: (url) => {
+          this.form.disable();
           const clip = {
             uid: this.user?.uid as string,
             displayName: this.user?.displayName as string,
@@ -98,6 +99,7 @@ export class UploadComponent {
           this.showPercentage = false;
         },
         error: (error) => {
+          this.form.enable();
           this.alertColor = 'red';
           this.alertMsg = 'Failed to upload';
           this.inSubmission = false;

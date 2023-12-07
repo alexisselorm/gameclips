@@ -22,6 +22,7 @@
     <div *ngIf="isDropped">
       <app-alert *ngIf="showAlert" [colour]="alertColor">
         <p>{{ alertMsg }}</p>
+        <p>{{ percentage | percent }}</p>
       </app-alert>
       <!-- Form -->
       <form [formGroup]="form" (ngSubmit)="uploadFile()">

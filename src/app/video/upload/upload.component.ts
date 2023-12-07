@@ -23,6 +23,7 @@ export class UploadComponent {
   alertColor = 'blue';
   alertMsg = 'Please wait...Your clip is being uploaded';
   inSubmission = false;
+  percentage = 0;
   file: File | null = null;
   storeFile($event: Event) {
     this.isDragover = false;
@@ -55,6 +56,9 @@ export class UploadComponent {
     this.showAlert = true;
     alert('File uploaded successfully');
 
+    uploadedFile.percentageChanges().subscribe((progress) => {
+      this.percentage = (progress as number) / 100;
+    });
     // uploadedFile.then((res) =>
     //   res.ref.getDownloadURL().then((url) => {
     //     console.log(url);

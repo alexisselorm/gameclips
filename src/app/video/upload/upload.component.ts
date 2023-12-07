@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { v4 } from 'uuid';
+import { last } from 'rxjs/operators';
 
 @Component({
   selector: 'app-upload',
@@ -24,6 +25,7 @@ export class UploadComponent {
   alertMsg = 'Please wait...Your clip is being uploaded';
   inSubmission = false;
   percentage = 0;
+  showPercentage = false;
   file: File | null = null;
   storeFile($event: Event) {
     this.isDragover = false;
@@ -48,17 +50,35 @@ export class UploadComponent {
     this.alertColor = 'blue';
     this.alertMsg = 'Please wait... Your clip is being uploaded';
     this.inSubmission = true;
+    this.showPercentage = true;
 
     const clipFilename = v4();
-    const clipPath = `clips/${clipFilename}`;
+    const clipPath = `clips/${clipFilename}.mp4`;
 
     let uploadedFile = this.storage.upload(clipPath, this.file);
     this.showAlert = true;
-    alert('File uploaded successfully');
 
     uploadedFile.percentageChanges().subscribe((progress) => {
       this.percentage = (progress as number) / 100;
     });
+
+    uploadedFile
+      .snapshotChanges()
+      .pipe(last())
+      .subscribe({
+        next: (snapshot) => {
+          this.alertColor = 'green';
+          this.alertMsg = 'Successfully uploaded';
+          this.showPercentage = false;
+        },
+        error: (error) => {
+          this.alertColor = 'red';
+          this.alertMsg = 'Failed to upload';
+          this.inSubmission = false;
+          this.showPercentage = false;
+          console.log(error);
+        },
+      });
     // uploadedFile.then((res) =>
     //   res.ref.getDownloadURL().then((url) => {
     //     console.log(url);

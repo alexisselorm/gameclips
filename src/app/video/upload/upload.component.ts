@@ -18,6 +18,11 @@ export class UploadComponent {
 
   isDragover = false;
   isDropped = false;
+
+  showAlert = false;
+  alertColor = 'blue';
+  alertMsg = 'Please wait...Your clip is being uploaded';
+  inSubmission = false;
   file: File | null = null;
   storeFile($event: Event) {
     this.isDragover = false;
@@ -38,10 +43,17 @@ export class UploadComponent {
   }
 
   uploadFile() {
+    this.showAlert = true;
+    this.alertColor = 'blue';
+    this.alertMsg = 'Please wait... Your clip is being uploaded';
+    this.inSubmission = true;
+
     const clipFilename = v4();
     const clipPath = `clips/${clipFilename}`;
 
     let uploadedFile = this.storage.upload(clipPath, this.file);
+    this.showAlert = true;
+    alert('File uploaded successfully');
 
     // uploadedFile.then((res) =>
     //   res.ref.getDownloadURL().then((url) => {

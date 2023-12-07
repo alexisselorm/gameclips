@@ -5,6 +5,7 @@ import { v4 } from 'uuid';
 import { last, switchMap } from 'rxjs/operators';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import firebase from 'firebase/compat/app';
+import { ClipService } from 'src/app/services/clip.service';
 
 @Component({
   selector: 'app-upload',
@@ -14,7 +15,8 @@ import firebase from 'firebase/compat/app';
 export class UploadComponent {
   constructor(
     private storage: AngularFireStorage,
-    private auth: AngularFireAuth
+    private auth: AngularFireAuth,
+    private clipsService: ClipService
   ) {
     auth.user.subscribe((user) => {
       this.user = user;
@@ -82,13 +84,14 @@ export class UploadComponent {
       .subscribe({
         next: (url) => {
           const clip = {
-            uid: this.user?.uid,
-            disaplyName: this.user?.displayName,
-            title: this.title.value,
-            filename: `${clipFilename}.mp4`,
+            uid: this.user?.uid as string,
+            displayName: this.user?.displayName as string,
+            title: this.title.value as string,
+            fileName: `${clipFilename}.mp4`,
             url,
           };
 
+          this.clipsService.createClip(clip);
           console.log(clip);
           this.alertColor = 'green';
           this.alertMsg = 'Successfully uploaded';

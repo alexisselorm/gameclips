@@ -99,6 +99,7 @@ export class UploadComponent implements OnDestroy {
             title: this.title.value as string,
             fileName: `${clipFilename}.mp4`,
             url,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
           };
 
           let clipDocRef = await this.clipsService.createClip(clip);

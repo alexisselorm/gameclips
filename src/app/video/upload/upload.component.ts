@@ -48,9 +48,13 @@ export class UploadComponent implements OnDestroy {
   file: File | null = null;
   task?: AngularFireUploadTask;
   screenshots: string[] = [];
-
+  selectedScreenshot = '';
+  screenshotTask?: AngularFireUploadTask;
   async storeFile($event: Event) {
-    console.log($event);
+    if (this.ffmpegService.isRunning) {
+      return;
+    }
+
     this.isDragover = false;
     this.file = ($event as DragEvent).dataTransfer
       ? (($event as DragEvent).dataTransfer?.files.item(0) as File)
@@ -61,6 +65,7 @@ export class UploadComponent implements OnDestroy {
     }
 
     this.screenshots = await this.ffmpegService.getScreenshots(this.file);
+    this.selectedScreenshot = this.screenshots[0];
 
     this.form.setValue({
       title: this.file.name.replace(/\.[^/.]+$/, ''),
@@ -72,7 +77,7 @@ export class UploadComponent implements OnDestroy {
     console.log(this.file);
   }
 
-  uploadFile() {
+  async uploadFile() {
     this.form.disable();
     this.showAlert = true;
     this.alertColor = 'blue';
@@ -83,8 +88,16 @@ export class UploadComponent implements OnDestroy {
     const clipFilename = v4();
     const clipPath = `clips/${clipFilename}.mp4`;
 
+    const screenshotBlob = await this.ffmpegService.blobFromURL(
+      this.selectedScreenshot
+    );
+    const screenshotPath = `screenshots/${clipFilename}.png`;
+
     this.task = this.storage.upload(clipPath, this.file);
     let clipRef = this.storage.ref(clipPath);
+
+    this.screenshotTask = this.storage.upload(screenshotPath, screenshotBlob);
+
     this.showAlert = true;
 
     this.task.percentageChanges().subscribe((progress) => {

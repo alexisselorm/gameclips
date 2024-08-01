@@ -5,7 +5,25 @@ import { createFFmpeg, fetchFile } from '@ffmpeg/ffmpeg';
   providedIn: 'root',
 })
 export class FfmpegService {
+  isRunning = false;
+
+  isReady = false;
+  private ffmpeg;
+
+  constructor() {
+    this.ffmpeg = createFFmpeg({ log: true });
+  }
+
+  async init() {
+    if (this.isReady) {
+      return;
+    }
+    await this.ffmpeg.load();
+    this.isReady = true;
+  }
+
   async getScreenshots(file: File) {
+    this.isRunning = true;
     const data = await fetchFile(file);
 
     this.ffmpeg.FS('writeFile', file.name, data);
@@ -20,7 +38,7 @@ export class FfmpegService {
         file.name,
         // Output options
         '-ss',
-        `00:00:01${second}`,
+        `00:00:0${second}`,
         '-frames:v',
         '1',
         '-filter:v',
@@ -46,20 +64,13 @@ export class FfmpegService {
       const screenshortURL = URL.createObjectURL(screenshotBlob);
       screenshots.push(screenshortURL);
     });
+    this.isRunning = false;
     return screenshots;
   }
-  isReady = false;
-  private ffmpeg;
 
-  constructor() {
-    this.ffmpeg = createFFmpeg({ log: true });
-  }
-
-  async init() {
-    if (this.isReady) {
-      return;
-    }
-    await this.ffmpeg.load();
-    this.isReady = true;
+  async blobFromURL(url: string) {
+    const response = await fetch(url);
+    const blob = await response.blob();
+    return blob;
   }
 }

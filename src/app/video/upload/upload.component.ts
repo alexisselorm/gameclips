@@ -47,8 +47,9 @@ export class UploadComponent implements OnDestroy {
   user: firebase.User | null = null;
   file: File | null = null;
   task?: AngularFireUploadTask;
+  screenshots: string[] = [];
 
-  storeFile($event: Event) {
+  async storeFile($event: Event) {
     console.log($event);
     this.isDragover = false;
     this.file = ($event as DragEvent).dataTransfer
@@ -58,6 +59,8 @@ export class UploadComponent implements OnDestroy {
       alert('Please select a video file only');
       return;
     }
+
+    this.screenshots = await this.ffmpegService.getScreenshots(this.file);
 
     this.form.setValue({
       title: this.file.name.replace(/\.[^/.]+$/, ''),

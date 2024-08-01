@@ -134,6 +134,7 @@ export class UploadComponent implements OnDestroy {
             fileName: `${clipFilename}.mp4`,
             url: clipUrl,
             screenshotUrl,
+            screenshotFileName: `${clipFilename}.png`,
             timestamp: firebase.firestore.FieldValue.serverTimestamp(),
           };
 

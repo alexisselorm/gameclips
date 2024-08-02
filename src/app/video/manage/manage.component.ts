@@ -11,6 +11,16 @@ import { ModalService } from 'src/app/services/modal.service';
   styleUrls: ['./manage.component.css'],
 })
 export class ManageComponent implements OnInit {
+  async copyToClipboard($event: MouseEvent, docID: string | undefined) {
+    $event.preventDefault();
+    if (!docID) {
+      return;
+    }
+    const url = `${location.origin}/clip/${docID}`;
+
+    await navigator.clipboard.writeText(url);
+    alert('Link copied to clipboard');
+  }
   videoOrder = '1';
   clips: IClip[] = [];
   activeClip: IClip | null = null;

@@ -16,6 +16,7 @@ import { ClipComponent } from './clip/clip.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { ClipsListComponent } from './clips-list/clips-list.component';
+import { FbTimeStampPipe } from './pipes/fb-time-stamp.pipe';
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,6 +26,7 @@ import { ClipsListComponent } from './clips-list/clips-list.component';
     ClipComponent,
     NotFoundComponent,
     ClipsListComponent,
+    FbTimeStampPipe,
   ],
   imports: [
     BrowserModule,

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Path to the file you want to modify
-FILE_PATH="node_modules/some-dependency/file.js"
+FILE_PATH="node_modules/@angular/fire/compat/firestore/interfaces.d.ts"
 
 # Check if the file exists
 if [ -f "$FILE_PATH" ]; then
